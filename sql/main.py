@@ -27,3 +27,7 @@ def read_tutor(id: int, db: Session = Depends(get_db)):
 def read_tutores(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     tutores = crud.get_tutores(db, skip=skip, limit=limit)
     return tutores
+
+@app.put("/tutores/{id}/", response_model=schemas.Tutor)
+def update_tutor(tutor: schemas.ModificarTutor, id: int = Path(..., alias="id"), db: Session = Depends(get_db)):
+    return crud.update_tutor(db=db, tutor=tutor, id=id)
