@@ -31,3 +31,8 @@ def read_tutores(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
 @app.put("/tutores/{id}/", response_model=schemas.Tutor)
 def update_tutor(tutor: schemas.ModificarTutor, id: int = Path(..., alias="id"), db: Session = Depends(get_db)):
     return crud.update_tutor(db=db, tutor=tutor, id=id)
+
+@app.delete("/tutores/{id}/", status_code=status.HTTP_204_NO_CONTENT)
+def delete_tutor(id: int = Path(..., alias="id"), db: Session = Depends(get_db)):
+    tutores = crud.delete_tutor(db=db, id=id)
+    return tutores
