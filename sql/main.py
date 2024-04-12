@@ -18,3 +18,12 @@ def get_db():
 @app.post("/tutores/", response_model=schemas.Tutor)
 def create_tutor(tutor: schemas.CrearTutor, db: Session = Depends(get_db)):
     return crud.create_tutor(db=db, tutor=tutor)
+
+@app.get("/tutores/{id}/", response_model=schemas.Tutor)
+def read_tutor(id: int, db: Session = Depends(get_db)):
+    return crud.get_tutor(db, id)
+
+@app.get("/tutores/", response_model=list[schemas.Tutor])
+def read_tutores(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    tutores = crud.get_tutores(db, skip=skip, limit=limit)
+    return tutores
