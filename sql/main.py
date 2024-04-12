@@ -14,3 +14,7 @@ def get_db():
         yield db
     finally:
         db.close
+        
+@app.post("/tutores/", response_model=schemas.Tutor)
+def create_tutor(tutor: schemas.CrearTutor, db: Session = Depends(get_db)):
+    return crud.create_tutor(db=db, tutor=tutor)
