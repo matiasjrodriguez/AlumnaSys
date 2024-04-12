@@ -15,6 +15,13 @@ def get_db():
     finally:
         db.close
         
+@app.get("/")
+def index():
+    return {
+        'Aplicación': 'AlumnaSys',
+        'Versión': '0.0.1'
+    }    
+    
 @app.post("/tutores/", response_model=schemas.Tutor)
 def create_tutor(tutor: schemas.CrearTutor, db: Session = Depends(get_db)):
     return crud.create_tutor(db=db, tutor=tutor)
