@@ -1,5 +1,5 @@
 from fastapi import Depends, FastAPI, Path, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
@@ -32,11 +32,15 @@ def index():
         'Versión': '0.0.1'
     }    
     
+@app.get("/healthz")
+def healthz():
+    return Response(status_code=200)
+    
 @app.post("/tutores/", response_model=schemas.Tutor)
 def create_tutor(tutor: schemas.CrearTutor, db: Session = Depends(get_db)):
     if crud.create_tutor(db=db, tutor=tutor):
-        return JSONResponse(status_code=201)
-    return JSONResponse(status_code=400)
+        return Response(status_code=201)
+    return Response(status_code=400)
 
 @app.get("/tutores/{id}/", response_model=schemas.Tutor)
 def read_tutor(id: int, db: Session = Depends(get_db)):
